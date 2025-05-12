@@ -1,4 +1,5 @@
 -- Practica 3 de BD
+-- Creacio de les taules
 
 -- En alguns entorns falla si no existeix
 DROP DATABASE IF EXISTS BD1;
@@ -9,7 +10,7 @@ USE BD1;
 -- PAÏSOS(nom, pot_desenv, tractat_signat) 
 CREATE TABLE paisos (
 	nom VARCHAR(25) NOT NULL,
-	pot_desenv BOOLEAN NOT NULL,
+	pot_desenv INT NOT NULL,
 	tractat_signat VARCHAR(1) CHECK (tractat_signat = 'S' OR tractat_signat = 'N' OR tractat_signat IS NULL),
 	CONSTRAINT pk_paisos PRIMARY KEY (nom)
 ) engine=innodb;
@@ -28,7 +29,7 @@ CREATE TABLE laboratoris (
 --		Clau forana codiLab referencia LABORATORIS(codi)
 --		Clau forana responsable referencia QUALIFICATS(num_pass)
 CREATE TABLE zones_biocontencio (
-	codi INT NOT NULL auto_increment,
+	codi INT NOT NULL,
 	codiLab INT NOT NULL,
 	nivell VARCHAR(1) NOT NULL CHECK (nivell = 'A' OR nivell = 'M' OR nivell = 'B'),
 	responsable VARCHAR(6) NOT NULL,
@@ -69,8 +70,8 @@ CREATE TABLE ordinaris (
 CREATE TABLE qualificats (
 	num_pass VARCHAR(6) NOT NULL,
 	titulacio VARCHAR(25) NOT NULL,
-	zona_assignada INT NOT NULL,
-	lab INT NOT NULL,
+	zona_assignada INT,
+	lab INT,
 	CONSTRAINT pk_qualificats PRIMARY KEY (num_pass),
 	CONSTRAINT fk_qualificats_empleats FOREIGN KEY (num_pass) REFERENCES empleats(num_pass),
 	CONSTRAINT fk_qualificats_zones_biocontencio FOREIGN KEY (zona_assignada, lab) REFERENCES zones_biocontencio (codi, codiLab)
@@ -83,12 +84,12 @@ ALTER TABLE zones_biocontencio ADD CONSTRAINT fk_zones_biocontencio_qualificats 
 --		Clau forana empl_ord referencia ORDINARIS(num_pass)
 --		Clau forana (zona, lab) referencia ZONES_BIOCONTENCIO(codi, codiLab)
 CREATE TABLE assignacions (
-	date DATE NOT NULL,
+	data DATE NOT NULL,
 	empl_ord VARCHAR(6) NOT NULL,
 	zona INT NOT NULL,
 	lab INT NOT NULL,
-	data_fi DATE NOT NULL,
-	CONSTRAINT pk_assignacions PRIMARY KEY (date, empl_ord),
+	data_fi DATE,
+	CONSTRAINT pk_assignacions PRIMARY KEY (data, empl_ord),
 	CONSTRAINT fk_assignacions_ordinaris FOREIGN KEY (empl_ord) REFERENCES ordinaris(num_pass),
 	CONSTRAINT fk_assignacions_zones_biocontencio FOREIGN KEY (zona, lab) REFERENCES zones_biocontencio(codi, codiLab)
 ) engine=innodb;
