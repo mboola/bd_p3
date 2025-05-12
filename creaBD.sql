@@ -10,7 +10,7 @@ USE BD1;
 CREATE TABLE paisos (
 	nom VARCHAR(25) NOT NULL,
 	pot_desenv BOOLEAN NOT NULL,
-	tractat_signat BOOLEAN NOT NULL,
+	tractat_signat VARCHAR(1) CHECK (tractat_signat = 'S' OR tractat_signat = 'N' OR tractat_signat IS NULL),
 	CONSTRAINT pk_paisos PRIMARY KEY (nom)
 ) engine=innodb;
 
@@ -30,7 +30,7 @@ CREATE TABLE laboratoris (
 CREATE TABLE zones_biocontencio (
 	codi INT NOT NULL auto_increment,
 	codiLab INT NOT NULL,
-	nivell VARCHAR(1) NOT NULL,
+	nivell VARCHAR(1) NOT NULL CHECK (nivell = 'A' OR nivell = 'M' OR nivell = 'B'),
 	responsable VARCHAR(6) NOT NULL,
 	CONSTRAINT pk_zones_biocontencio PRIMARY KEY (codi, codiLab),
 	CONSTRAINT fk_zones_biocontencio_laboratoris FOREIGN KEY (codiLab) REFERENCES laboratoris(codi)
@@ -41,7 +41,7 @@ CREATE TABLE zones_biocontencio (
 CREATE TABLE armes_biologiques (
 	nom VARCHAR(25) NOT NULL,
 	data DATE NOT NULL,
-	potencial INT NOT NULL,
+	potencial INT NOT NULL CHECK (potencial >= 1 && potencial <= 10),
 	zona INT NOT NULL,
 	lab INT NOT NULL,
 	CONSTRAINT pk_armes_biologiques PRIMARY KEY (nom),
@@ -83,12 +83,12 @@ ALTER TABLE zones_biocontencio ADD CONSTRAINT fk_zones_biocontencio_qualificats 
 --		Clau forana empl_ord referencia ORDINARIS(num_pass)
 --		Clau forana (zona, lab) referencia ZONES_BIOCONTENCIO(codi, codiLab)
 CREATE TABLE assignacions (
-	data_dia DATE NOT NULL,
+	date DATE NOT NULL,
 	empl_ord VARCHAR(6) NOT NULL,
 	zona INT NOT NULL,
 	lab INT NOT NULL,
 	data_fi DATE NOT NULL,
-	CONSTRAINT pk_assignacions PRIMARY KEY (data_dia, empl_ord),
+	CONSTRAINT pk_assignacions PRIMARY KEY (date, empl_ord),
 	CONSTRAINT fk_assignacions_ordinaris FOREIGN KEY (empl_ord) REFERENCES ordinaris(num_pass),
 	CONSTRAINT fk_assignacions_zones_biocontencio FOREIGN KEY (zona, lab) REFERENCES zones_biocontencio(codi, codiLab)
 ) engine=innodb;
