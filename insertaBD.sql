@@ -19,6 +19,7 @@ INSERT INTO empleats(num_pass, nom) VALUES ('67890G', 'Gemma Puig');
 INSERT INTO empleats(num_pass, nom) VALUES ('22222L', 'Laia Claret');
 INSERT INTO empleats(num_pass, nom) VALUES ('33333M', 'Maria Rovira');
 INSERT INTO empleats(num_pass, nom) VALUES ('44444B', 'Bernat Pino');
+INSERT INTO empleats(num_pass, nom) VALUES ('44454B', 'Bernat2 Pino');
 
 INSERT INTO qualificats(num_pass, titulacio) VALUES ('54321J', 'ENG. QUIMIC');
 INSERT INTO qualificats(num_pass, titulacio) VALUES ('24351N', 'ENG. QUIMIC');
@@ -27,6 +28,7 @@ INSERT INTO qualificats(num_pass, titulacio) VALUES ('13245A', 'ENG. QUIMIC');
 INSERT INTO ordinaris(num_pass) VALUES ('12345J');
 INSERT INTO ordinaris(num_pass) VALUES ('98765P');
 INSERT INTO ordinaris(num_pass) VALUES ('67890G');
+INSERT INTO ordinaris(num_pass) VALUES ('44454B');
 
 INSERT INTO zones_biocontencio(codi, codiLab, nivell, responsable) VALUES (1, 1, 'A', '54321J');
 INSERT INTO zones_biocontencio(codi, codiLab, nivell, responsable) VALUES (2, 1, 'B', '13245A');
