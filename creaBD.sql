@@ -42,7 +42,7 @@ CREATE TABLE zones_biocontencio (
 CREATE TABLE armes_biologiques (
 	nom VARCHAR(25) NOT NULL,
 	data DATE NOT NULL,
-	potencial INT NOT NULL CHECK (potencial >= 1 && potencial <= 10),
+	potencial INT NOT NULL CHECK (potencial >= 1 AND potencial <= 10),
 	zona INT NOT NULL,
 	lab INT NOT NULL,
 	CONSTRAINT pk_armes_biologiques PRIMARY KEY (nom),
