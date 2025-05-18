@@ -44,5 +44,6 @@ INSERT INTO armes_biologiques(nom, data, potencial, zona, lab) VALUES ('ANTRAX',
 
 INSERT INTO assignacions(data, empl_ord, zona, lab) VALUES ('2013-11-3', '12345J', 1, 1);
 INSERT INTO assignacions(data, empl_ord, zona, lab) VALUES ('2013-11-3', '98765P', 1, 1);
+INSERT INTO assignacions(data, empl_ord, zona, lab) VALUES ('2013-11-3', '67890G', 2, 1);
 INSERT INTO assignacions(data, empl_ord, zona, lab, data_fi) VALUES ('2013-05-03', '98765P', 2, 1, '2013-11-02');
 INSERT INTO assignacions(data, empl_ord, zona, lab, data_fi) VALUES ('2013-05-03', '67890G', 2, 1, '2013-11-02');
