@@ -20,6 +20,7 @@ INSERT INTO empleats(num_pass, nom) VALUES ('22222L', 'Laia Claret');
 INSERT INTO empleats(num_pass, nom) VALUES ('33333M', 'Maria Rovira');
 INSERT INTO empleats(num_pass, nom) VALUES ('44444B', 'Bernat Pino');
 INSERT INTO empleats(num_pass, nom) VALUES ('44454B', 'Bernat2 Pino');
+INSERT INTO empleats(num_pass, nom) VALUES ('44453B', 'Bernat3 Pino');
 
 INSERT INTO qualificats(num_pass, titulacio) VALUES ('54321J', 'ENG. QUIMIC');
 INSERT INTO qualificats(num_pass, titulacio) VALUES ('24351N', 'ENG. QUIMIC');
@@ -30,13 +31,14 @@ INSERT INTO ordinaris(num_pass) VALUES ('98765P');
 INSERT INTO ordinaris(num_pass) VALUES ('67890G');
 INSERT INTO ordinaris(num_pass) VALUES ('44454B');
 
-INSERT INTO zones_biocontencio(codi, codiLab, nivell, responsable) VALUES (1, 1, 'A', '54321J');
+INSERT INTO zones_biocontencio(codi, codiLab, nivell, responsable) VALUES (1, 1, 'B', '54321J');
 INSERT INTO zones_biocontencio(codi, codiLab, nivell, responsable) VALUES (2, 1, 'B', '13245A');
 INSERT INTO zones_biocontencio(codi, codiLab, nivell, responsable) VALUES (1, 3, 'M', '24351N');
 
 INSERT INTO qualificats(num_pass, titulacio, zona_assignada, lab) VALUES ('22222L', 'ENG. QUIMIC', 1, 1);
 INSERT INTO qualificats(num_pass, titulacio, zona_assignada, lab) VALUES ('33333M', 'ENG. QUIMIC', 1, 1);
 INSERT INTO qualificats(num_pass, titulacio, zona_assignada, lab) VALUES ('44444B', 'ENG. QUIMIC', 1, 1);
+INSERT INTO qualificats(num_pass, titulacio, zona_assignada, lab) VALUES ('44453B', 'ENG. QUIMIC', 1, 1);
 
 INSERT INTO armes_biologiques(nom, data, potencial, zona, lab) VALUES ('ANTRAX', '2002-08-03', 7, 1, 1);
 
