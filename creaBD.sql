@@ -70,8 +70,8 @@ CREATE TABLE ordinaris (
 CREATE TABLE qualificats (
 	num_pass VARCHAR(6) NOT NULL,
 	titulacio VARCHAR(25) NOT NULL,
-	zona_assignada INT,
-	lab INT,
+	zona_assignada INT NULL,
+	lab INT NULL,
 	CONSTRAINT pk_qualificats PRIMARY KEY (num_pass),
 	CONSTRAINT fk_qualificats_empleats FOREIGN KEY (num_pass) REFERENCES empleats(num_pass),
 	CONSTRAINT fk_qualificats_zones_biocontencio FOREIGN KEY (zona_assignada, lab) REFERENCES zones_biocontencio (codi, codiLab)
@@ -93,3 +93,50 @@ CREATE TABLE assignacions (
 	CONSTRAINT fk_assignacions_ordinaris FOREIGN KEY (empl_ord) REFERENCES ordinaris(num_pass),
 	CONSTRAINT fk_assignacions_zones_biocontencio FOREIGN KEY (zona, lab) REFERENCES zones_biocontencio(codi, codiLab)
 ) engine=innodb;
+
+
+-- defined triggers--
+
+-- Aquest trigger s'executa quan intentem afegir una nova entrada
+-- a zones de biocontencio, on definim el responsable.
+-- Busquem el responsable a qualificats i eliminem les dades d'aquest
+-- a les columnes de zona_assignada i lab (les poso a NULL)
+DELIMITER $$
+CREATE TRIGGER trig_zones_biocontencio_before_insert
+BEFORE INSERT ON zones_biocontencio
+FOR EACH ROW
+BEGIN
+  UPDATE qualificats
+  SET zona_assignada = NULL, lab = NULL
+  WHERE num_pass = NEW.responsable;
+END$$
+DELIMITER ;
+
+-- Aquest trigger s'executa quan canviem el responsable d'una zona
+-- de biocontencio, assignant al responsable anterior els valors
+-- de la zona i del lab.
+-- Primer verifiquem que el treballador qualificat no estigui ja 
+-- com a responsable d'una zona de biocontencio, i despres realitzem els canvis necessaris
+DELIMITER $$
+CREATE TRIGGER trig_zones_biocontencio_after_update
+AFTER UPDATE ON zones_biocontencio
+FOR EACH ROW
+BEGIN
+  IF OLD.responsable <> NEW.responsable THEN
+  	IF EXISTS (
+      SELECT 1 FROM zones_biocontencio
+      WHERE responsable = NEW.responsable AND (codi <> OLD.codi OR codiLab <> OLD.codiLab)
+    ) THEN
+      SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Aquest responsable ja esta assignat a una altra zona';
+    ELSE
+      UPDATE qualificats
+      SET zona_assignada = OLD.codi, lab = OLD.codiLab
+      WHERE num_pass = OLD.responsable;
+	  UPDATE qualificats
+      SET zona_assignada = NULL, lab = NULL
+      WHERE num_pass = NEW.responsable;
+  	END IF;
+  END IF;
+END$$
+DELIMITER ;
