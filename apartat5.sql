@@ -3,12 +3,14 @@
 
 USE BD1;
 
-SELECT l.nom, z.codi
-FROM laboratoris AS l JOIN zones_biocontencio AS z
-ON l.codi = z.codiLab AND (z.codiLab, z.codi) IN (
-    SELECT zona_assignada, lab
+SELECT l.nom, zones.codiZona
+FROM laboratoris AS l
+JOIN (
+    SELECT zona_assignada AS codiZona, lab AS codiLab
     FROM qualificats
     WHERE zona_assignada IS NOT NULL
     GROUP BY zona_assignada
     HAVING (COUNT(*) > 3)
-);
+) AS zones
+ON zones.codiLab = l.codi
+ORDER BY l.nom, zones.codiZona;

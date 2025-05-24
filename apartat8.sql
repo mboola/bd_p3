@@ -11,9 +11,9 @@ SELECT empl_ord AS codi_empl, zona, lab
 FROM (
     SELECT a.empl_ord, a.zona, a.lab
     FROM assignacions a
-    JOIN ordinaris AS o
+    JOIN ordinaris AS o 
     ON a.empl_ord = o.num_pass
-    WHERE a.data_fi = NULL
+    AND a.data_fi IS NULL
     UNION
     SELECT z.responsable, z.codi, z.codiLab
     FROM zones_biocontencio z

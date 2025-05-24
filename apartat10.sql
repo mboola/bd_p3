@@ -4,6 +4,10 @@
 
 USE BD1;
 
+-- Les comandes per a comprovar que aquest apartat funciona estan comentades.
+-- SELECT * FROM zones_biocontencio;
+-- SELECT * FROM qualificats;
+
 START TRANSACTION;
 
 UPDATE qualificats
@@ -14,3 +18,6 @@ UPDATE zones_biocontencio
 SET responsable = NULL;
 
 COMMIT;
+
+-- SELECT * FROM zones_biocontencio;
+-- SELECT * FROM qualificats;
