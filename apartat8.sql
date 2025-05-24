@@ -13,6 +13,7 @@ FROM (
     FROM assignacions a
     JOIN ordinaris AS o
     ON a.empl_ord = o.num_pass
+    WHERE a.data_fi = NULL
     UNION
     SELECT z.responsable, z.codi, z.codiLab
     FROM zones_biocontencio z

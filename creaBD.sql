@@ -97,6 +97,18 @@ CREATE TABLE assignacions (
 
 -- defined triggers--
 
+DELIMITER $$
+CREATE TRIGGER trig_insert_empleats
+BEFORE INSERT ON empleats
+FOR EACH ROW
+BEGIN
+  IF @allow_insert IS NULL OR @allow_insert != 1 THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Insertions are not allowed in empleats table';
+  END IF;
+END$$
+DELIMITER ;
+
 -- Aquest trigger s'executa quan intentem afegir una nova entrada
 -- a zones de biocontencio, on definim el responsable.
 -- Busquem el responsable a qualificats i eliminem les dades d'aquest
@@ -139,4 +151,49 @@ BEGIN
   	END IF;
   END IF;
 END$$
+DELIMITER ;
+
+-- Stored procedure per afegir empleat ordinari o empleat qualificat
+
+DELIMITER $$
+
+CREATE PROCEDURE InserirOrdinari (
+    IN num_pass VARCHAR(6),
+    IN nom VARCHAR(25)
+)
+BEGIN
+	SET @allow_insert = 1;
+
+    INSERT INTO empleats (num_pass, nom)
+    VALUES (num_pass, nom);
+
+    INSERT INTO ordinaris (num_pass)
+    VALUES (num_pass);
+
+	SET @allow_insert = NULL;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE InserirQualificat (
+    IN num_pass VARCHAR(6),
+    IN nom VARCHAR(25),
+	IN titulacio VARCHAR(25),
+	IN zona_assignada INT,
+	IN lab INT
+)
+BEGIN
+	SET @allow_insert = 1;
+
+    INSERT INTO empleats (num_pass, nom)
+    VALUES (num_pass, nom);
+
+    INSERT INTO qualificats (num_pass, titulacio, zona_assignada, lab)
+    VALUES (num_pass, titulacio, zona_assignada, lab);
+
+	SET @allow_insert = NULL;
+END$$
+
 DELIMITER ;

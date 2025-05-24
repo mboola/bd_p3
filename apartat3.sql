@@ -1,8 +1,9 @@
-use bd1;
+USE BD1;
 
-select codi, nom 
-from laboratoris 
-where codi = ANY(
-    select codiLab 
-    from zones_biocontencio 
-    where nivell = 'A');
+SELECT codi, nom 
+FROM laboratoris 
+WHERE codi = ANY (
+    SELECT codiLab 
+    FROM zones_biocontencio 
+    WHERE nivell = 'A'
+);
