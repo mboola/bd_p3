@@ -32,7 +32,7 @@ CREATE TABLE zones_biocontencio (
 	codi INT NOT NULL,
 	codiLab INT NOT NULL,
 	nivell VARCHAR(1) NOT NULL CHECK (nivell = 'A' OR nivell = 'M' OR nivell = 'B'),
-	responsable VARCHAR(6) NOT NULL,
+	responsable VARCHAR(6) NULL,
 	CONSTRAINT pk_zones_biocontencio PRIMARY KEY (codi, codiLab),
 	CONSTRAINT fk_zones_biocontencio_laboratoris FOREIGN KEY (codiLab) REFERENCES laboratoris(codi)
 ) engine=innodb;
